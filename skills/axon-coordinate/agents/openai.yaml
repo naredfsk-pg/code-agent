@@ -1,0 +1,4 @@
+interface:
+  display_name: "AXON Coordinate"
+  short_description: "Coordinate evidence-backed multi-agent work"
+  default_prompt: "Use $axon-coordinate to coordinate this task with explicit ownership, checkpoints, and evidence-backed handoffs."
