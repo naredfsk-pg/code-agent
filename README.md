@@ -7,8 +7,11 @@ Canonical repository for user-owned Agent Skills and custom agents shared betwee
 | Skill | Claude Code | Codex | Purpose |
 |---|---|---|---|
 | `axon-coordinate` | Compatible | Compatible | Coordinate multi-agent work with ownership, scheduling, evidence-backed handoffs, and durable checkpoints |
+| `pdf` | Compatible | Untested | Extract text/tables, fill forms, merge/split, and generate PDFs |
 
 The Claude Code and Codex copies of `axon-coordinate/SKILL.md` were byte-identical when this repository was initialized, so the repository keeps one canonical copy instead of duplicated vendor directories.
+
+`pdf` was vendored in from a bundled Claude skill (its `SKILL.md` still carries a `license: Proprietary` field and a now-missing `LICENSE.txt` reference), which is an intentional exception to the "no vendored bundled skills" rule below — kept because it's in daily use alongside `axon-coordinate`.
 
 ## Agents / Personas
 
@@ -42,6 +45,20 @@ Install the AXON Claude agents globally:
 ```bash
 mkdir -p ~/.claude/agents
 cp agents/claude/*.md ~/.claude/agents/
+```
+
+Personal installation of `pdf` for all local projects:
+
+```bash
+mkdir -p ~/.claude/skills
+cp -R skills/pdf ~/.claude/skills/
+```
+
+Project-scoped installation:
+
+```bash
+mkdir -p /path/to/project/.claude/skills
+cp -R skills/pdf /path/to/project/.claude/skills/
 ```
 
 ## Install for Codex
