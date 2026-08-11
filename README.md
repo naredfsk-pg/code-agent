@@ -24,6 +24,36 @@ agents/codex/*.toml  # Codex custom agents from ~/.codex/agents/
 
 The Codex files are the canonical `.codex/agents` set. The legacy `~/.Codex/agents` mirror is intentionally not duplicated because it is byte-identical and exists only for compatibility.
 
+## Python Style Instructions (`AGENTS.md`)
+
+The root [`AGENTS.md`](AGENTS.md) defines the preferred Python coding style. Codex discovers this file automatically when a session starts inside this repository or one of its subdirectories. No installation step is required for work on this repository.
+
+Start a new Codex session from the repository root after changing `AGENTS.md` because project instructions are loaded once per run or session:
+
+```bash
+cd /path/to/code-agent
+codex
+```
+
+To verify which instructions Codex loaded:
+
+```bash
+codex --cd /path/to/code-agent --ask-for-approval never \
+  "List the instruction sources you loaded and summarize the Python coding style."
+```
+
+### Use the Python style in another repository
+
+If the target repository does not have an `AGENTS.md`, copy this repository's file to its root:
+
+```bash
+cp /path/to/code-agent/AGENTS.md /path/to/project/AGENTS.md
+```
+
+If the target already has an `AGENTS.md`, merge the `Python Coding Style` section into that file instead of overwriting its existing project instructions.
+
+Codex combines global instructions from `~/.codex/AGENTS.md` with project instructions from the repository root down to the current working directory. Instructions closer to the working directory take precedence when guidance conflicts. See the [official OpenAI `AGENTS.md` documentation](https://learn.chatgpt.com/docs/agent-configuration/agents-md) for the discovery and precedence rules.
+
 ## Install for Claude Code
 
 Personal installation for all local projects:
@@ -90,6 +120,7 @@ Restart the client if a newly created top-level skills directory is not detected
 
 - Keep one canonical directory per skill under `skills/`.
 - Keep Claude and Codex agent definitions under `agents/claude/` and `agents/codex/`.
+- Keep repository-wide coding preferences in the root `AGENTS.md`.
 - Preserve the same seven agent names and domain boundaries across both formats.
 - Include a valid `SKILL.md` with only `name` and `description` in its YAML frontmatter.
 - Keep optional scripts, references, assets, and agent metadata inside the skill directory.
