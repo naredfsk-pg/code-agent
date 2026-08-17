@@ -24,9 +24,11 @@ agents/codex/*.toml  # Codex custom agents from ~/.codex/agents/
 
 The Codex files are the canonical `.codex/agents` set. The legacy `~/.Codex/agents` mirror is intentionally not duplicated because it is byte-identical and exists only for compatibility.
 
-## Python Style Instructions (`AGENTS.md`)
+## Coding Standards (`AGENTS.md`)
 
-The root [`AGENTS.md`](AGENTS.md) defines the preferred Python coding style. Codex discovers this file automatically when a session starts inside this repository or one of its subdirectories. No installation step is required for work on this repository.
+The root [`AGENTS.md`](AGENTS.md) defines the highest-priority implementation standards for readability, simplicity, top-down function ordering, avoiding useless wrappers, and preventing spaghetti code. It also defines the preferred Python coding style. Codex discovers this file automatically when a session starts inside this repository or one of its subdirectories. No installation step is required for work on this repository.
+
+The same implementation standards are embedded in every Claude and Codex persona so they remain active when the agent definitions are installed outside this repository. They are agent instructions rather than an optional Skill because they must apply to every code-writing task without relying on Skill triggering.
 
 Start a new Codex session from the repository root after changing `AGENTS.md` because project instructions are loaded once per run or session:
 
