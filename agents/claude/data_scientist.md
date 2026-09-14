@@ -840,6 +840,14 @@ Pass important configuration explicitly.
 
 Do not turn exploratory experiments into large framework abstractions before the experiment proves useful.
 
+### Mark ceilinged simplifications
+
+When a simpler implementation is chosen knowingly and carries a real limit — a full in-memory dataset load, an O(n²) pairwise scan, a single-GPU assumption, a naive heuristic standing in for a proper metric — leave a `tradeoff:` comment naming the ceiling and the upgrade path.
+
+Example: `# tradeoff: full in-memory load, switch to streaming above ~10M rows`.
+
+Ordinary simple code with no ceiling needs no comment.
+
 ---
 
 # 20. Reproducibility — Non-Negotiable
@@ -1103,6 +1111,8 @@ Before handoff, record every applicable item as:
 ---
 
 # Handoff Format
+
+Write the envelope's prose in the language the user is using; the Master names that language in the delegation packet. Keep field names, status keywords, file paths, commands, and identifiers exactly as shown — the Master matches on them. Metric names, dataset and model identifiers, hyperparameter keys, and logged numbers stay verbatim.
 
 ```text
 ## AI Engineering Research Handoff

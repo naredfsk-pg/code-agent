@@ -21,6 +21,7 @@ Whenever you implement a fix or modify tests, apply these rules while preserving
 3. **Top-down ordering**: place public entry points first, then helpers below their caller in call-flow order.
 4. **No useless wrappers**: keep one- or two-line operations inline when extraction would only forward arguments or rename a call. Extract them only when genuinely reused from multiple call sites.
 5. **No spaghetti code**: prefer guard clauses and early returns, keep nesting to at most three levels where practical, split god classes/functions by responsibility, and keep dependencies explicit and loosely coupled.
+6. **Mark ceilinged simplifications**: when a simpler implementation is chosen knowingly and carries a real limit — a global lock, an O(n²) scan, a naive heuristic — leave a `tradeoff:` comment naming the ceiling and the upgrade path. Ordinary simple code with no ceiling needs no comment.
 
 ---
 
@@ -146,6 +147,8 @@ Record every item as `PASS`, `FAIL`, or `N/A — reason` and cite inspectable ev
 ---
 
 ## Handoff Format
+
+Write the envelope's prose in the language the user is using; the Master names that language in the delegation packet. Keep field names, status keywords, severity tags, file paths, commands, and identifiers exactly as shown — the Master matches on them. The 4-Mantra record follows the same rule: prose in the user's language, evidence verbatim.
 
 ```
 ## Debugger Handoff

@@ -26,21 +26,32 @@ Apply these rules whenever creating or modifying code, services, modules, or tes
    - Do not create god classes or god functions. Split multiple responsibilities into cohesive modules or functions.
    - Keep coupling loose and dependencies explicit so a local change does not cause unrelated breakage.
 
-## Python Coding Style
+6. **Mark deliberate simplifications that carry a ceiling**
+   - When a simpler implementation is chosen knowingly and it has a real limit — a global lock, an O(n²) scan over data expected to stay small, a naive heuristic — leave a `tradeoff:` comment naming the ceiling and the upgrade path.
+   - Example: `# tradeoff: single global lock; move to per-account locks if write throughput becomes a bottleneck`.
+   - This applies only to a simplification with a known limit, not to ordinary simple code. A simple implementation with no ceiling needs no comment.
 
-When writing or modifying Python, use an explicit, pragmatic, pipeline-oriented style.
+## Implementation Style — Every Language
+
+Write the plainest code that is correct. Obvious and boring beats short and clever. Use an explicit, pragmatic, pipeline-oriented style.
 
 - Favor readability and traceable execution flow over compactness.
 - Break complex processing into clear sequential stages.
 - Use descriptive intermediate variables for the output of each stage.
-- Prefer explicit loops when logic contains multiple operations, branching, accumulation, or intermediate state.
-- Use comprehensions when the transformation is simple and immediately readable.
-- Use classes for stateful services and cohesive processing components.
-- Use standalone functions for simple stateless transformations.
-- Prefer straightforward dict and list data structures.
-- Do not introduce dataclasses, protocols, abstractions, or inheritance unless they provide a concrete benefit.
-- Extract private helper methods only for a distinct processing responsibility; do not create pass-through wrappers.
+- Prefer an explicit loop when the logic contains multiple operations, branching, accumulation, or intermediate state. Reach for the language's compact form only when the transformation is simple and immediately readable.
+- Prefer the language's plainest built-in structures — a map and a list — before defining a type to carry data that is only passed through.
+- Do not introduce a class hierarchy, interface, generic, or inheritance unless it provides a concrete benefit in the current requirement.
+- Use a stateful object for a cohesive service or processing component; use a standalone function for a stateless transformation.
+- Extract a private helper only for a distinct processing responsibility; do not create pass-through wrappers.
 - Use comments to mark meaningful processing phases when they improve navigation through a longer function.
-- Prefer simple control flow over clever Python expressions.
+- Prefer simple control flow over clever language-specific expressions.
 - Add defensive checks at boundaries where external or malformed data can reasonably occur.
 - Optimize for code that is easy to debug and modify, not for minimum line count.
+
+## Python Coding Style
+
+The implementation style above applies in full. Python-specific points:
+
+- Use comprehensions when the transformation is simple and immediately readable; use an explicit loop otherwise.
+- Prefer plain `dict` and `list`. Do not introduce dataclasses, `TypedDict`, protocols, ABCs, or inheritance unless they provide a concrete benefit.
+- Avoid clever Python expressions such as nested ternaries, walrus chains, and deep unpacking where a plain statement reads better.

@@ -49,6 +49,7 @@ Give every agent:
 - relevant context, dependencies, and accepted prior handoffs;
 - constraints and permitted side effects;
 - expected evidence and the standard handoff envelope;
+- the language the user is writing in, so the handoff prose comes back in it;
 - notice that the workspace is shared and unrelated edits must not be reverted.
 
 Do not ask two agents to write the same file concurrently.
@@ -80,6 +81,8 @@ Require this envelope:
 **Risks / Deferred**: limitations, conflicts, or none
 **Recommended Next Step**: owner and concrete action
 ```
+
+An agent sees only the packet it was given, never the conversation, so it cannot infer the user's language on its own — state it explicitly. The envelope's field names, status keywords, severity tags, paths, commands, and identifiers stay in English regardless of that language; only the prose changes. The gate matches on the structure, and a translated field name breaks it.
 
 Inspect evidence rather than accepting checkmarks. Return a failed handoff with the exact failed gate. After two unsuccessful correction cycles for the same gate, stop fan-out and surface the blocker and evidence to the user.
 
