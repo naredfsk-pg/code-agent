@@ -102,6 +102,7 @@ Tool access is a guardrail, not an oversight. `code_reviewer` cannot write or ex
 | `frontend-design` | Compatible | Untested | Commit to a distinctive visual direction **before** writing UI, so the result does not read as a templated default |
 | `axon-coordinate` | Compatible | Compatible | Coordinate multi-agent work with ownership, scheduling, evidence-backed handoffs, and durable checkpoints |
 | `pdf` | Compatible | Untested | Extract text/tables, fill forms, merge/split, and generate PDFs |
+| `report` | Compatible | Untested | Write evidence-backed reports from two angles: data science / AI engineering (problem statement, results vs baseline, charts, error analysis) or software engineering (Mermaid process diagrams, I/O contracts, performance). Output is Markdown, rendered to a verified PDF |
 
 `scrutinize` runs before code exists; `code_reviewer` judges code that already does. That split in time is the whole boundary between them.
 
@@ -110,6 +111,8 @@ Tool access is a guardrail, not an oversight. `code_reviewer` cannot write or ex
 `axon-coordinate` also defines the durable checkpoint format at `.axon/tasks/<task-id>.md`, so work survives compaction, interruption, or a new session. A chat summary is not treated as memory.
 
 The Claude Code and Codex copies of `axon-coordinate/SKILL.md` were byte-identical when this repository was initialized, so the repository keeps one canonical copy instead of duplicated vendor directories.
+
+`report` distills three real reports into two lenses: `ds`, for data science and AI engineering work, and `swe`, for software engineering work. Either lens can have a plain-language stakeholder version written from the same numbers. Every report opens with a problem statement and a success criterion. Every number needs a source, a named baseline, and a proxy-or-ground-truth label, and failures are reported with the same depth as wins. Its `scripts/render_pdf.py` renders with headless Chrome (pandoc → HTML → PDF) instead of WeasyPrint. The WeasyPrint output of the source reports looked right, but its Thai text layer extracted "ภาพ" as "ภำพ". Mermaid fences are drawn in-page by mermaid.js, from the CDN or from `MERMAID_JS` when offline. The script fails if any source word or number is missing from the PDF's extracted text, or if any diagram was not drawn.
 
 `pdf` was vendored in from a bundled Claude skill (its `SKILL.md` still carries a `license: Proprietary` field and a now-missing `LICENSE.txt` reference), which is an intentional exception to the "no vendored bundled skills" rule below — kept because it's in daily use.
 
@@ -173,6 +176,7 @@ cp -R skills/scrutinize ~/.claude/skills/
 cp -R skills/frontend-design ~/.claude/skills/
 cp -R skills/axon-coordinate ~/.claude/skills/
 cp -R skills/pdf ~/.claude/skills/
+cp -R skills/report ~/.claude/skills/
 ```
 
 Project-scoped installation:

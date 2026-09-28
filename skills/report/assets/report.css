@@ -1,0 +1,103 @@
+/* Print stylesheet for render_pdf.py. Page flow is continuous on purpose:
+   sections never force a page break, blocks only refuse to split.
+   render_pdf.py adds the @bottom-left running title from the report's H1. */
+
+@page {
+  size: A4;
+  margin: 18mm 16mm 20mm 16mm;
+  @bottom-right {
+    content: counter(page) " / " counter(pages);
+    font: 8pt "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+    color: #6b7280;
+  }
+}
+
+:root {
+  --ink: #111827;
+  --muted: #6b7280;
+  --rule: #d1d5db;
+  --accent: #1d4ed8;
+  --accent-soft: #eff6ff;
+  --note-soft: #fffbeb;
+  --note-edge: #f59e0b;
+  --head-soft: #f3f4f6;
+}
+
+html {
+  font-family: "Noto Sans", "Noto Sans Thai", "Helvetica Neue", Arial, "Thonburi", "Leelawadee UI", sans-serif;
+  font-size: 10pt;
+  line-height: 1.55;
+  color: var(--ink);
+  background: #ffffff;
+}
+
+body { margin: 0; }
+
+h1 { font-size: 20pt; line-height: 1.25; margin: 0 0 4pt; }
+h2 {
+  font-size: 13.5pt;
+  margin: 20pt 0 8pt;
+  padding-bottom: 4pt;
+  border-bottom: 2px solid var(--accent);
+}
+h3 { font-size: 11pt; margin: 14pt 0 6pt; }
+h1, h2, h3 { break-after: avoid; }
+
+/* The metadata line right under the title: date · audience · data · environment */
+h1 + p { color: var(--muted); font-size: 9pt; margin-top: 0; }
+
+p, li { orphans: 3; widows: 3; }
+ul, ol { padding-left: 18pt; }
+
+code {
+  font-family: "DejaVu Sans Mono", Menlo, Consolas, monospace;
+  font-size: 8.5pt;
+  background: var(--head-soft);
+  padding: 0 3pt;
+  border-radius: 3px;
+}
+pre { background: var(--head-soft); padding: 8pt; border-radius: 4px; white-space: pre-wrap; }
+pre code { padding: 0; background: none; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8pt 0 10pt;
+  font-size: 9pt;
+}
+th {
+  background: var(--head-soft);
+  text-align: left;
+  font-weight: 600;
+}
+th, td { border-bottom: 1px solid var(--rule); padding: 4pt 6pt; vertical-align: top; }
+td { font-variant-numeric: tabular-nums; }
+thead { display: table-header-group; }
+tr { break-inside: avoid; }
+
+/* Blockquote is the callout: "Read this first", metric warnings, takeaways. */
+blockquote {
+  margin: 10pt 0;
+  padding: 8pt 12pt;
+  background: var(--note-soft);
+  border-left: 4px solid var(--note-edge);
+  border-radius: 4px;
+}
+blockquote p { margin: 0; }
+blockquote p + p { margin-top: 4pt; }
+
+figure { margin: 10pt 0; text-align: center; }
+img { max-width: 100%; max-height: 120mm; }
+figcaption { color: var(--muted); font-size: 8.5pt; margin-top: 3pt; }
+
+/* Mermaid diagrams, drawn by mermaid.js before printing. */
+div.mermaid { margin: 10pt 0; text-align: center; }
+/* mermaid sets width="100%" on the svg; capping height keeps tall sequence diagrams from
+   jumping to the next page and leaving the current one half empty. */
+div.mermaid svg { max-width: 100%; max-height: 100mm; width: auto; height: auto; }
+
+/* Only blocks that always fit on one page refuse to split. Tables and code may be
+   taller than a page; forcing them whole leaves the page above mostly blank. */
+blockquote, figure, img, div.mermaid { break-inside: avoid; }
+
+hr { border: none; border-top: 1px solid var(--rule); margin: 14pt 0; }
