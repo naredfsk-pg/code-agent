@@ -48,6 +48,7 @@ Run in order. Do not skip ahead.
 - **Silent consequences**: what would change that nobody asked to change? Performance, error semantics, observability, the contract other callers depend on, on-disk or on-wire format, migration path.
 - **Acceptance**: how will anyone know this is done and correct? A requirement with no observable success condition is a finding, not a detail to settle later.
 - **Blast radius**: who else depends on what this would touch?
+- **Reversibility**: which parts would be expensive to undo once shipped — a public API, a persisted format, a schema, a dependency other teams adopt? Scrutinize those hardest, and prefer the option that keeps them reversible.
 
 ### 4. Report
 

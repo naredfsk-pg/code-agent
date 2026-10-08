@@ -846,6 +846,20 @@ Example: `# tradeoff: full in-memory load, switch to streaming above ~10M rows`.
 
 Ordinary simple code with no ceiling needs no comment.
 
+### Fail loudly
+
+Never swallow an error or replace a failed step with a silent default — a silently skipped batch or a NaN filled with zero corrupts results without leaving a trace.
+
+Validate data once where it enters the pipeline; do not re-check it at every stage.
+
+### Small verified steps
+
+Run a pipeline end to end on a small sample before scaling it up.
+
+Change one thing at a time and confirm its effect before the next change.
+
+Keep refactors of research code separate from changes that alter results, and confirm a refactor reproduces the previous results.
+
 ---
 
 # 20. Reproducibility — Non-Negotiable
@@ -1094,6 +1108,7 @@ Before handoff, record every applicable item as:
 ### Engineering
 
 * [ ] Code follows readability and simplicity standards
+* [ ] No swallowed errors or silent defaults on failure paths
 * [ ] Implementation matches the intended method
 * [ ] No unnecessary abstraction was introduced
 * [ ] Runtime/resource requirements were measured or estimated

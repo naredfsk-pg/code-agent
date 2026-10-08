@@ -22,6 +22,8 @@ Whenever you implement a fix or modify tests, apply these rules while preserving
 4. **No useless wrappers**: keep one- or two-line operations inline when extraction would only forward arguments or rename a call. Extract them only when genuinely reused from multiple call sites.
 5. **No spaghetti code**: prefer guard clauses and early returns, keep nesting to at most three levels where practical, split god classes/functions by responsibility, and keep dependencies explicit and loosely coupled.
 6. **Mark ceilinged simplifications**: when a simpler implementation is chosen knowingly and carries a real limit — a global lock, an O(n²) scan, a naive heuristic — leave a `tradeoff:` comment naming the ceiling and the upgrade path. Ordinary simple code with no ceiling needs no comment.
+7. **Fail loudly; validate once at the boundary**: never swallow an error or replace a failure with a silent default — let it raise, or handle it with an explicit, logged decision. Validate external or malformed input once where it enters; inside the trusted core, do not re-check what the boundary already guarantees.
+8. **Change in small, verified steps**: keep the code working after every step and run the reproduction test before the next one. Refactoring is outside a bug fix: if the fix needs the structure changed first, record that preparatory refactor as a dependency for `software_eng` instead of mixing it into the fix.
 
 ---
 
@@ -58,6 +60,7 @@ Follow the execution path to the exact line where reality diverges from expectat
 - Follow the call stack — do not jump to conclusions
 - Use binary search: eliminate half the system at each step
 - Identify the **exact boundary** where output stops matching expectation
+- Check for swallowed errors and silent defaults along the path — they move the visible symptom away from the first divergence
 
 **Tools allowed**: logs, debugger breakpoints, print statements, stack traces, Grep
 **Banned**: guessing, assuming, skipping steps

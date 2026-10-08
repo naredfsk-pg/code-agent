@@ -66,7 +66,7 @@ flowchart LR
         B1["scrutinize ladder<br/>stop at the first rung:<br/>1 skip it · 2 reuse what's here<br/>3 stdlib · 4 platform feature<br/>5 installed dep · 6 one line<br/>7 the minimum that works"]
     end
     subgraph D["DURING — write it plain"]
-        D1["AGENTS.md<br/>6 standards<br/>+ implementation style"]
+        D1["AGENTS.md<br/>8 standards<br/>+ implementation style"]
     end
     subgraph A["AFTER — catch what slipped"]
         A1["code_reviewer<br/>Pillar 4: over-engineering<br/>Rule of Three"]
@@ -116,6 +116,23 @@ The Claude Code and Codex copies of `axon-coordinate/SKILL.md` were byte-identic
 
 `pdf` was vendored in from a bundled Claude skill (its `SKILL.md` still carries a `license: Proprietary` field and a now-missing `LICENSE.txt` reference), which is an intentional exception to the "no vendored bundled skills" rule below — kept because it's in daily use.
 
+## Where the rules come from
+
+The standards and persona gates encode ten principles that the classic software-engineering books agree on — Code Complete, Clean Code, The Pragmatic Programmer, A Philosophy of Software Design, Refactoring, Working Effectively with Legacy Code, Head First Design Patterns, Designing Data-Intensive Applications, Building Microservices, Modern Software Engineering, Software Engineering at Google, and The Mythical Man-Month. Each principle is enforced where it can still change the outcome.
+
+| Principle | Enforced in |
+|---|---|
+| Complexity is the main enemy | `AGENTS.md` standards 1–5; `code_reviewer` Pillar 6 (change amplification, unknown unknowns) |
+| High cohesion, loose coupling, information hiding | `AGENTS.md` implementation style (interface simpler than what it hides); `software_eng` deep modules and information leakage; `code_reviewer` shallow modules |
+| One home per piece of knowledge | `AGENTS.md` implementation style; `code_reviewer` Duplicate Knowledge; `software_eng` knowledge duplication |
+| Design for change | `software_eng` and `backend` contract rules (Hyrum's Law); `code_reviewer` contract gate; `scrutinize` reversibility |
+| Tests are the safety net | `software_eng` refactors blocked without tests; `qa_tester` Legacy Code Protocol and fakes over mocks; `debugger` reproduction test |
+| Small steps, fast feedback | `AGENTS.md` standard 8 (thin end-to-end path, preparatory refactor as its own step) |
+| Measure before believing | `backend` and `qa_tester` latency percentiles; `code_reviewer` Pillar 2; `debugger` falsification |
+| Fail loudly at the boundary | `AGENTS.md` standard 7; `backend` outbound timeouts; `debugger` swallowed-error check |
+| Code is for people; systems mirror teams | `AGENTS.md` standard 1; the handoff envelope; one Master and disjoint ownership (Brooks, Conway) |
+| Everything is a trade-off | `tradeoff:` markers; `code_reviewer` trade-off matrix; `software_eng` design proposals and pattern selection |
+
 ## Deliberate decisions — do not "fix" these
 
 A reader arriving with good instincts will want to tidy several things. Each one is a choice.
@@ -125,10 +142,12 @@ A reader arriving with good instincts will want to tidy several things. Each one
 - **Every persona ends with the same six-field handoff envelope.** Uniformity is what makes the Evidence Gate mechanical instead of a judgment call.
 - **The same persona exists twice, as `.md` and `.toml`.** Two vendors, two native formats, one behavior. They must be edited as a pair.
 - **`data_scientist` is far longer than the other personas.** Research work needs explicit rigor about hypotheses, baselines, and experiment evidence that the other domains get from their own protocols. Length here is working content, not bloat.
+- **`code_reviewer` does not flag a function by line count alone.** Clean Code and A Philosophy of Software Design disagree on function length. Splitting a clear sequence of stages into functions that must be read together adds complexity instead of removing it, so length is a signal, not a verdict.
+- **`software_eng` does not demand an interface for every dependency.** Dependency inversion applies where a dependency is actually swapped — several implementations, or a test seam in use. Anywhere else the interface is the premature abstraction that `code_reviewer` Pillar 4 flags; requiring it in one persona and flagging it in another would hand agents contradictory orders.
 
 ## Coding standards (`AGENTS.md`)
 
-The root [`AGENTS.md`](AGENTS.md) defines six highest-priority implementation standards — readability over cleverness, simplicity and YAGNI, top-down function ordering, no useless wrappers, strict anti-spaghetti structure, and marking deliberate simplifications that carry a ceiling. It then defines the implementation style for every language, with a short Python-specific section on top of it.
+The root [`AGENTS.md`](AGENTS.md) defines eight highest-priority implementation standards — readability over cleverness, simplicity and YAGNI, top-down function ordering, no useless wrappers, strict anti-spaghetti structure, marking deliberate simplifications that carry a ceiling, failing loudly with validation once at the boundary, and changing code in small verified steps. It then defines the implementation style for every language, with a short Python-specific section on top of it.
 
 The sixth standard is worth calling out because it is easy to misread. When a simpler implementation is chosen knowingly *and has a real limit*, it leaves a marker naming the ceiling and the upgrade path:
 

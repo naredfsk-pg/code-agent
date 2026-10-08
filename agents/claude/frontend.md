@@ -22,6 +22,8 @@ Whenever you create or modify code, services, modules, components, or tests, app
 4. **No useless wrappers**: keep one- or two-line operations inline when extraction would only forward arguments or rename a call. Extract them only when genuinely reused from multiple call sites.
 5. **No spaghetti code**: prefer guard clauses and early returns, keep nesting to at most three levels where practical, split god components/functions by responsibility, and keep dependencies explicit and loosely coupled.
 6. **Mark ceilinged simplifications**: when a simpler implementation is chosen knowingly and carries a real limit — a global lock, an O(n²) scan, a naive heuristic — leave a `tradeoff:` comment naming the ceiling and the upgrade path. Ordinary simple code with no ceiling needs no comment.
+7. **Fail loudly; validate once at the boundary**: never swallow an error or replace a failure with a silent default — let it raise, or handle it with an explicit, logged decision. Validate external or malformed input once where it enters; inside the trusted core, do not re-check what the boundary already guarantees.
+8. **Change in small, verified steps**: keep the code working after every step and run the relevant tests before the next one. Build a new feature as a thin end-to-end path first, then widen it. When the current structure makes the requested change hard, first refactor in a separate behavior-preserving step with tests green before and after, then make the change; refactor nothing the change does not need.
 
 ---
 
@@ -98,7 +100,7 @@ Before handoff, confirm:
 
 Record every item as `PASS`, `FAIL`, or `N/A — reason` and cite inspectable evidence.
 
-- [ ] Coding standards pass: readable explicit flow, smallest current design, top-down ordering, no useless wrappers, and no spaghetti structure
+- [ ] Coding standards pass: readable explicit flow, smallest current design, top-down ordering, no useless wrappers, no spaghetti structure, no swallowed errors, and changes made in small verified steps
 - [ ] Component has single responsibility — data, logic, and render are separated
 - [ ] All props explicitly typed, no `any`
 - [ ] Server state managed via caching layer (React Query/SWR), not raw `useEffect`

@@ -22,6 +22,8 @@ Whenever you create or modify tests, fixtures, utilities, or production code, ap
 4. **No useless wrappers**: keep one- or two-line operations inline when extraction would only forward arguments or rename a call. Extract them only when genuinely reused from multiple call sites.
 5. **No spaghetti code**: prefer guard clauses and early returns, keep nesting to at most three levels where practical, split god classes/functions by responsibility, and keep dependencies explicit and loosely coupled.
 6. **Mark ceilinged simplifications**: when a simpler implementation is chosen knowingly and carries a real limit — a global lock, an O(n²) scan, a naive heuristic — leave a `tradeoff:` comment naming the ceiling and the upgrade path. Ordinary simple code with no ceiling needs no comment.
+7. **Fail loudly; validate once at the boundary**: never swallow an error or replace a failure with a silent default — let it raise, or handle it with an explicit, logged decision. Validate external or malformed input once where it enters; inside the trusted core, do not re-check what the boundary already guarantees.
+8. **Change in small, verified steps**: keep the code working after every step and run the relevant tests before the next one. Build a new feature as a thin end-to-end path first, then widen it. When the current structure makes the requested change hard, first refactor in a separate behavior-preserving step with tests green before and after, then make the change; refactor nothing the change does not need.
 
 ---
 
@@ -38,6 +40,8 @@ E2E           → critical user journeys only, full stack, owned by QA not devel
 
 Default priority: **Integration > Unit > E2E**
 Rationale: unit tests miss contract violations between modules; E2E tests are slow and brittle. Integration tests catch the most real bugs per compute second.
+
+Prefer real dependencies or fakes over mocks. A mock that asserts which calls were made couples the test to the implementation; reserve mocks for boundaries you cannot run in a test (third-party APIs, time, randomness).
 
 ### 2. Edge Case Taxonomy
 For every function or endpoint under test, systematically cover:
@@ -82,8 +86,16 @@ Flag these to backend agent if found uncovered:
 ### 5. Load Implications
 For endpoints marked performance-critical:
 - Estimate: what happens at 10x expected traffic?
+- Report latency as p50/p95/p99 under a stated load, never only the average
 - Identify: N+1 queries, missing indexes, synchronous blocking in hot paths
 - Recommend: load test scenario (tool: k6 or Locust), not just "add caching"
+
+### 6. Legacy Code Protocol
+When code that is about to be changed or refactored has no tests:
+1. Write characterization tests that pin what the code does now — including behavior that looks wrong, labeled as such rather than fixed
+2. Find the narrowest seam that isolates a dependency (a parameter, a constructor argument, an overridable method) without editing logic
+3. Break only the dependencies the tests need, and record each one
+4. Hand back to the requesting agent: the change can now proceed under cover. For new behavior in untested code, recommend sprout (a new tested function called from the old code) or wrap (a new tested function around it) over editing in place
 
 ---
 
@@ -124,6 +136,8 @@ Record every item as `PASS`, `FAIL`, or `N/A — reason` and cite inspectable ev
 - [ ] Failure/timeout paths tested for all external dependencies
 - [ ] Concurrent modification scenario considered
 - [ ] Every bug fix has a reproduction test
+- [ ] Code without prior tests got characterization tests before any change or refactor
+- [ ] Mocks used only at boundaries that cannot run in a test
 - [ ] No test asserts implementation details (internals, private methods, exact SQL)
 - [ ] Security checklist reviewed — gaps flagged to backend agent
 

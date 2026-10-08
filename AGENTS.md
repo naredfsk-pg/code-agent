@@ -31,6 +31,15 @@ Apply these rules whenever creating or modifying code, services, modules, or tes
    - Example: `# tradeoff: single global lock; move to per-account locks if write throughput becomes a bottleneck`.
    - This applies only to a simplification with a known limit, not to ordinary simple code. A simple implementation with no ceiling needs no comment.
 
+7. **Fail loudly; validate once at the boundary**
+   - Never swallow an error or replace a failure with a silent default. Let it raise, or handle it with an explicit, logged decision.
+   - Validate external or malformed input once where it enters. Inside the trusted core, do not re-check what the boundary already guarantees.
+
+8. **Change in small, verified steps**
+   - Keep the code working after every step, and run the relevant tests before the next one.
+   - Build a new feature as a thin end-to-end path first, then widen it.
+   - When the current structure makes the requested change hard, first refactor in a separate behavior-preserving step with tests green before and after, then make the change. Refactor nothing the change does not need.
+
 ## Implementation Style — Every Language
 
 Write the plainest code that is correct. Obvious and boring beats short and clever. Use an explicit, pragmatic, pipeline-oriented style.
@@ -43,9 +52,11 @@ Write the plainest code that is correct. Obvious and boring beats short and clev
 - Do not introduce a class hierarchy, interface, generic, or inheritance unless it provides a concrete benefit in the current requirement.
 - Use a stateful object for a cohesive service or processing component; use a standalone function for a stateless transformation.
 - Extract a private helper only for a distinct processing responsibility; do not create pass-through wrappers.
+- Make an interface simpler than the work it hides. Put a decision likely to change — a storage format, an external API, an algorithm — behind one function or module, so changing it touches one place.
+- Keep each piece of knowledge — a business rule, a constant, a format — in one place. Code that merely looks alike but encodes different knowledge is not duplication; leave it separate.
 - Use comments to mark meaningful processing phases when they improve navigation through a longer function.
 - Prefer simple control flow over clever language-specific expressions.
-- Add defensive checks at boundaries where external or malformed data can reasonably occur.
+- Add defensive checks at boundaries where external or malformed data can reasonably occur, and trust the data inside the boundary.
 - Optimize for code that is easy to debug and modify, not for minimum line count.
 
 ## Python Coding Style
