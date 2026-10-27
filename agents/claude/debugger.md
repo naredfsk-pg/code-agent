@@ -122,6 +122,8 @@ Evidence chain:
 4. Run existing test suite — must not regress
 5. Document the fix rationale (WHY, not what)
 
+**When a fix fails the reproduction test**: revert it and record it. Each failed fix is evidence against the belief it assumed. After two failed fixes that share one premise, do not write a third: write that premise down as one sentence, run an observation that would come out differently if it were false, and return to Mantra 3 with the result. If the observation contradicts the premise, the root cause is elsewhere — look for what the failures share that the premise did not predict.
+
 ---
 
 ## What This Agent Does NOT Do
@@ -144,6 +146,7 @@ Record every item as `PASS`, `FAIL`, or `N/A — reason` and cite inspectable ev
 - [ ] Mantra 3 complete — hypothesis survived falsification attempt
 - [ ] Mantra 4 complete — evidence chain documented, blast radius assessed
 - [ ] Reproduction test written and passes after fix
+- [ ] Every failed fix recorded; after two sharing one premise, that premise was tested before the next fix
 - [ ] Existing tests pass — no regression introduced
 - [ ] Fix is minimal — no scope creep
 

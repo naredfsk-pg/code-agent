@@ -54,7 +54,7 @@ flowchart LR
     G -->|"verified"| M
 ```
 
-Two failed correction cycles on the same gate stops the fan-out and surfaces the blocker to the human instead of looping.
+Two failed correction cycles on the same gate stops the fan-out and surfaces the blocker to the human instead of looping — after first testing the premise both attempts shared, so the human gets a tested premise rather than two failures.
 
 ## Where complexity gets cut
 
@@ -132,6 +132,8 @@ The standards and persona gates encode ten principles that the classic software-
 | Fail loudly at the boundary | `AGENTS.md` standard 7; `backend` outbound timeouts; `debugger` swallowed-error check |
 | Code is for people; systems mirror teams | `AGENTS.md` standard 1; the handoff envelope; one Master and disjoint ownership (Brooks, Conway) |
 | Everything is a trade-off | `tradeoff:` markers; `code_reviewer` trade-off matrix; `software_eng` design proposals and pattern selection |
+
+Two rules are adapted from [pstack](https://github.com/cursor/plugins/tree/main/pstack) (MIT, Lauren Tan) at commit `519d36a`: testing the shared premise after repeated failed fixes (`principle-attack-the-premise`, now in `debugger`'s Fix Protocol and `axon-coordinate`), and enforcing a repeated rule with a check instead of more text (`principle-encode-lessons-in-structure`, now `scripts/check_personas.py`).
 
 ## Deliberate decisions — do not "fix" these
 

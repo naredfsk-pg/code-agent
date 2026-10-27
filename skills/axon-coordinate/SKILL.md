@@ -84,7 +84,7 @@ Require this envelope:
 
 An agent sees only the packet it was given, never the conversation, so it cannot infer the user's language on its own — state it explicitly. The envelope's field names, status keywords, severity tags, paths, commands, and identifiers stay in English regardless of that language; only the prose changes. The gate matches on the structure, and a translated field name breaks it.
 
-Inspect evidence rather than accepting checkmarks. Return a failed handoff with the exact failed gate. After two unsuccessful correction cycles for the same gate, stop fan-out and surface the blocker and evidence to the user.
+Inspect evidence rather than accepting checkmarks. Return a failed handoff with the exact failed gate. After two unsuccessful correction cycles for the same gate, stop fan-out. Before surfacing the blocker, write down in one sentence the premise both attempts shared, and have the owning agent run one observation that would come out differently if that premise were false. Surface the blocker, the evidence, and that result to the user, so the next attempt starts from a tested premise instead of a third variation on the same one.
 
 ## 7. Close or Checkpoint
 
