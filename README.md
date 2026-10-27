@@ -245,6 +245,7 @@ The Codex files are the canonical `.codex/agents` set. The legacy `~/.Codex/agen
 - Keep one canonical directory per skill under `skills/`.
 - Keep Claude and Codex agent definitions under `agents/claude/` and `agents/codex/`, and edit each persona as a matched pair.
 - Keep repository-wide coding preferences in the root `AGENTS.md`, and propagate any change to the standards into all 14 persona files in the same commit.
+- Run `python3 scripts/check_personas.py` before committing; CI runs it on every push. It fails when the two persona sets name different agents, a persona loses its Coding Standards section, or that section differs within a `.md`/`.toml` pair. It cannot tell whether a persona's reworded rules still match `AGENTS.md`, so that stays a review item.
 - Preserve the same seven agent names and domain boundaries across both formats.
 - Include a valid `SKILL.md` whose YAML frontmatter carries only `name` and `description` — plus `license` on a vendored third-party skill, which must ship its `LICENSE.txt` alongside.
 - Vendor a third-party skill unchanged and record its source and commit, so it can be diffed against upstream later.
