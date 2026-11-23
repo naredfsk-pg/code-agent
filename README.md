@@ -14,7 +14,7 @@ See [AGENTS.md](AGENTS.md) for the full coding standards.
 
 The diagram shows the six-stage flow. For non-trivial work, clarify the goal and scrutinize the plan before implementation. The Master chooses specialists and the review/QA depth needed; small, low-risk requests can take a shorter path. Every handoff records status, deliverables, evidence, verification, risks, and the recommended next step. Long-running tasks keep progress in `.agent-team/tasks/<task-id>.md`.
 
-![AI Agent Team workflow: specialist roles, six stages, handoff requirements, and shared standards.](assets/figure.png)
+![AI Agent Team overview: specialist roles, architecture, workflow, handoff contract, reusable skills, and repository structure.](<assets/AI Agent Team Workflow Infographic (1).png>)
 
 Parallel work uses distinct file ownership. After two unsuccessful correction cycles on the same gate, the team tests the shared assumption before trying again.
 
