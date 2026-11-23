@@ -46,6 +46,16 @@ Each skill is in `skills/<name>/SKILL.md`.
 | `pdf` | Reading, creating, and manipulating PDFs |
 | `report` | Writing evidence-backed technical or research reports |
 
+## Use with other models and open-source harnesses
+
+This repository separates reusable instructions from the software that runs agents. Skills are Markdown instruction bundles; the definitions in `agents/claude/` and `agents/codex/` use platform-specific formats and may need conversion for another harness.
+
+You can use the skills with open-source harnesses such as [Qwen Code](https://github.com/QwenLM/qwen-code), [Pi](https://github.com/badlogic/pi-mono), [Oh My Pi](https://github.com/can1357/oh-my-pi), or [DeepSeek Harness](https://github.com/DeepSeek-ai/DeepSeek-Harness) when configured to discover Agent Skills. This repository keeps them in `skills/`; copy a skill to a location the harness scans, such as `.agents/skills/`, or configure its custom skill path.
+
+Qwen, DeepSeek, GLM, and MiniMax are model or provider choices, while the harness supplies the tools and agent workflow. Select a provider supported by your harness; API compatibility and tool-calling behavior vary by provider and model. Claude or Codex subscriptions are not required when your chosen harness and provider use separate access credentials.
+
+Skills provide instructions, but do not add runtime capabilities. Specialist delegation, parallel work, file isolation, hooks, and durable checkpoints depend on the harness and its available tools. Map the team roles to that harness's agents or subagents where needed.
+
 ## Install
 
 ### Claude Code
