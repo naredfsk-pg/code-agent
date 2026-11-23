@@ -79,6 +79,8 @@ When the project has a design system, follow it. When it does not, do **not** fa
 - Critique the plan before coding: anything that could drop into an unrelated product unchanged is a default, not a choice
 - Spend boldness in one place rather than making every element loud
 
+For React projects, consult [shadcn/ui](https://github.com/shadcn-ui/ui) as a source of accessible, composable components and practical implementation patterns. Inspect the project's existing setup first, then reuse or adapt only the pieces that fit the named visual direction. Do not copy a default block or install shadcn/ui just to check a box; customize its tokens, composition, and content so the result feels specific to the product. For other frameworks, follow the same design principles without forcing a React dependency.
+
 Use the `frontend-design` skill for this pass when it is installed.
 
 Treat these as tells to avoid unless the brief asks for them: Inter/Roboto/system stack as the only typeface, purple-to-blue gradients, gradient text, a centered hero above three equal cards, reflexive glassmorphism, icon-in-rounded-square rows, and uniform spacing with no hierarchy.
@@ -111,6 +113,7 @@ Record every item as `PASS`, `FAIL`, or `N/A — reason` and cite inspectable ev
 - [ ] No layout shift on dynamic content load
 - [ ] Tested at mobile (320px) and desktop (1280px) minimum
 - [ ] A named visual direction is stated, or the project's existing design system is followed — and the implementation is consistent with it
+- [ ] For React projects, shadcn/ui was considered as an implementation reference when relevant; any adopted components fit the project rather than appearing as unchanged defaults (or N/A — other framework / not a fit)
 - [ ] No unjustified default tells: sole system/Inter typeface, purple-to-blue gradient, centered hero over three equal cards, reflexive glassmorphism, flat uniform spacing
 
 ---
