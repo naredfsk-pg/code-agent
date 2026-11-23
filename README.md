@@ -10,15 +10,13 @@
 
 See [AGENTS.md](AGENTS.md) for the full coding standards.
 
-## How work flows
+## Workflow at a glance
 
-For non-trivial work, the Master clarifies the goal, chooses the smallest suitable workflow, and assigns specialists with clear scope and ownership. Work may be handled by one agent or coordinated across several. The Master checks evidence before accepting the result.
+The diagram shows the six-stage flow. For non-trivial work, clarify the goal and scrutinize the plan before implementation. The Master chooses specialists and the review/QA depth needed; small, low-risk requests can take a shorter path. Every handoff records status, deliverables, evidence, verification, risks, and the recommended next step. Long-running tasks keep progress in `.agent-team/tasks/<task-id>.md`.
 
-```text
-Request → scrutinize → specialist work → review / QA as needed → evidence check → delivery
-```
+![AI Agent Team workflow: specialist roles, six stages, handoff requirements, and shared standards.](assets/figure.png)
 
-Coordination rules keep file ownership distinct, order dependent work, and stop after two unsuccessful correction cycles on the same gate. Before a third attempt, the shared assumption must be tested.
+Parallel work uses distinct file ownership. After two unsuccessful correction cycles on the same gate, the team tests the shared assumption before trying again.
 
 ## Specialist agents
 
