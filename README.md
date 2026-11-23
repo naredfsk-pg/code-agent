@@ -1,6 +1,6 @@
 # code-agent
 
-Canonical repository for the AXON agent system — coding personas, skills, and implementation standards shared between Claude Code and Codex.
+Canonical repository for the AI Agent Team — specialist agents, skills, and implementation standards shared between Claude Code and Codex.
 
 This is not a framework you import. It is a set of instruction files that change how a coding agent decides what to build, how plainly to write it, and what proof it must produce before its work is accepted.
 
@@ -208,7 +208,7 @@ cp -R skills/scrutinize /path/to/project/.claude/skills/
 cp -R skills/axon-coordinate /path/to/project/.claude/skills/
 ```
 
-Install the AXON Claude agents globally:
+Install the AI Agent Team's Claude agents globally:
 
 ```bash
 mkdir -p ~/.claude/agents
@@ -217,7 +217,7 @@ cp agents/claude/*.md ~/.claude/agents/
 
 ## Install for Codex
 
-Personal installation matching this AXON configuration:
+Personal installation matching this AI Agent Team configuration:
 
 ```bash
 mkdir -p ~/.codex/skills
@@ -231,7 +231,7 @@ mkdir -p /path/to/project/.agents/skills
 cp -R skills/axon-coordinate /path/to/project/.agents/skills/
 ```
 
-Install the AXON Codex agents globally:
+Install the AI Agent Team's Codex agents globally:
 
 ```bash
 mkdir -p ~/.codex/agents

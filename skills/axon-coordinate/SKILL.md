@@ -1,9 +1,9 @@
 ---
 name: axon-coordinate
-description: Coordinate complex AXON work across multiple agents with explicit ownership, dependency-aware parallel or sequential scheduling, evidence-backed handoffs, and durable checkpoints. Use for multi-agent tasks, work that may span sessions, independent parallel reviews, or tasks at risk of context loss or overlapping edits. Do not use for trivial single-agent work.
+description: Coordinate complex AI Agent Team work across multiple agents with explicit ownership, dependency-aware parallel or sequential scheduling, evidence-backed handoffs, and durable checkpoints. Use for multi-agent tasks, work that may span sessions, independent parallel reviews, or tasks at risk of context loss or overlapping edits. Do not use for trivial single-agent work.
 ---
 
-# AXON Coordinate
+# AI Agent Team Coordination
 
 Coordinate through the Master. Keep agents flat unless recursive delegation is explicitly required.
 
