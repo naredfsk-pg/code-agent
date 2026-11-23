@@ -1,4 +1,0 @@
-interface:
-  display_name: "AI Agent Team Coordination"
-  short_description: "Coordinate evidence-backed multi-agent work"
-  default_prompt: "Use $axon-coordinate to coordinate this task with explicit ownership, checkpoints, and evidence-backed handoffs."

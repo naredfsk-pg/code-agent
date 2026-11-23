@@ -1,6 +1,6 @@
 ---
-name: axon-coordinate
-description: Coordinate complex AI Agent Team work across multiple agents with explicit ownership, dependency-aware parallel or sequential scheduling, evidence-backed handoffs, and durable checkpoints. Use for multi-agent tasks, work that may span sessions, independent parallel reviews, or tasks at risk of context loss or overlapping edits. Do not use for trivial single-agent work.
+name: team-coordinate
+description: Coordinate complex AI Agent Team tasks across multiple specialist agents with explicit ownership, dependency-aware scheduling, evidence-backed handoffs, and durable checkpoints.
 ---
 
 # AI Agent Team Coordination
@@ -21,7 +21,7 @@ Otherwise, use one agent or handle a trivial low-risk task directly.
 
 ## 2. Create the Coordination Record
 
-For multi-session or interruption-sensitive work, assign a stable task ID and let only the Master maintain `.axon/tasks/<task-id>.md`. Do not create a record for short, single-session work. Never store credentials or secrets.
+For multi-session or interruption-sensitive work, assign a stable task ID and let only the Master maintain `.agent-team/tasks/<task-id>.md`. Do not create a record for short, single-session work. Never store credentials or secrets.
 
 Use this minimal format:
 
