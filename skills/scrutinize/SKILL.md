@@ -52,7 +52,7 @@ Run in order. Do not skip ahead.
 
 ### 4. Report
 
-One tight block per finding, ordered by severity. Use the AXON severity scale so verdicts stay comparable with `code_reviewer`:
+One tight block per finding, ordered by severity. Use the AI Agent Team severity scale so verdicts stay comparable with `code_reviewer`:
 
 - **[CRITICAL]** — the goal is wrong, unachievable as specified, or the approach risks data loss or security exposure
 - **[HIGH]** — a false assumption, an unanswered question that blocks correct implementation, or a materially simpler alternative

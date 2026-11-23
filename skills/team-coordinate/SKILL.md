@@ -1,9 +1,9 @@
 ---
-name: axon-coordinate
-description: Coordinate complex AXON work across multiple agents with explicit ownership, dependency-aware parallel or sequential scheduling, evidence-backed handoffs, and durable checkpoints. Use for multi-agent tasks, work that may span sessions, independent parallel reviews, or tasks at risk of context loss or overlapping edits. Do not use for trivial single-agent work.
+name: team-coordinate
+description: Coordinate complex AI Agent Team tasks across multiple specialist agents with explicit ownership, dependency-aware scheduling, evidence-backed handoffs, and durable checkpoints.
 ---
 
-# AXON Coordinate
+# AI Agent Team Coordination
 
 Coordinate through the Master. Keep agents flat unless recursive delegation is explicitly required.
 
@@ -21,7 +21,7 @@ Otherwise, use one agent or handle a trivial low-risk task directly.
 
 ## 2. Create the Coordination Record
 
-For multi-session or interruption-sensitive work, assign a stable task ID and let only the Master maintain `.axon/tasks/<task-id>.md`. Do not create a record for short, single-session work. Never store credentials or secrets.
+For multi-session or interruption-sensitive work, assign a stable task ID and let only the Master maintain `.agent-team/tasks/<task-id>.md`. Do not create a record for short, single-session work. Never store credentials or secrets.
 
 Use this minimal format:
 
@@ -84,7 +84,7 @@ Require this envelope:
 
 An agent sees only the packet it was given, never the conversation, so it cannot infer the user's language on its own — state it explicitly. The envelope's field names, status keywords, severity tags, paths, commands, and identifiers stay in English regardless of that language; only the prose changes. The gate matches on the structure, and a translated field name breaks it.
 
-Inspect evidence rather than accepting checkmarks. Return a failed handoff with the exact failed gate. After two unsuccessful correction cycles for the same gate, stop fan-out and surface the blocker and evidence to the user.
+Inspect evidence rather than accepting checkmarks. Return a failed handoff with the exact failed gate. After two unsuccessful correction cycles for the same gate, stop fan-out. Before surfacing the blocker, write down in one sentence the premise both attempts shared, and have the owning agent run one observation that would come out differently if that premise were false. Surface the blocker, the evidence, and that result to the user, so the next attempt starts from a tested premise instead of a third variation on the same one.
 
 ## 7. Close or Checkpoint
 

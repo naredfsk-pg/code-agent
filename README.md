@@ -1,6 +1,6 @@
 # code-agent
 
-Canonical repository for the AXON agent system — coding personas, skills, and implementation standards shared between Claude Code and Codex.
+Canonical repository for the AI Agent Team — specialist agents, skills, and implementation standards shared between Claude Code and Codex.
 
 This is not a framework you import. It is a set of instruction files that change how a coding agent decides what to build, how plainly to write it, and what proof it must produce before its work is accepted.
 
@@ -54,7 +54,7 @@ flowchart LR
     G -->|"verified"| M
 ```
 
-Two failed correction cycles on the same gate stops the fan-out and surfaces the blocker to the human instead of looping.
+Two failed correction cycles on the same gate stops the fan-out and surfaces the blocker to the human instead of looping — after first testing the premise both attempts shared, so the human gets a tested premise rather than two failures.
 
 ## Where complexity gets cut
 
@@ -100,7 +100,7 @@ Tool access is a guardrail, not an oversight. `code_reviewer` cannot write or ex
 |---|---|---|---|
 | `scrutinize` | Compatible | Untested | Scrutinize a requirement, spec, or plan **before** implementation — question whether it should exist, then ground it against real code |
 | `frontend-design` | Compatible | Untested | Commit to a distinctive visual direction **before** writing UI, so the result does not read as a templated default |
-| `axon-coordinate` | Compatible | Compatible | Coordinate multi-agent work with ownership, scheduling, evidence-backed handoffs, and durable checkpoints |
+| `team-coordinate` | Compatible | Compatible | Coordinate multi-agent work with ownership, scheduling, evidence-backed handoffs, and durable checkpoints |
 | `pdf` | Compatible | Untested | Extract text/tables, fill forms, merge/split, and generate PDFs |
 | `report` | Compatible | Untested | Write evidence-backed reports from two angles: data science / AI engineering (problem statement, results vs baseline, charts, error analysis) or software engineering (Mermaid process diagrams, I/O contracts, performance). Output is Markdown, rendered to a verified PDF |
 
@@ -108,9 +108,9 @@ Tool access is a guardrail, not an oversight. `code_reviewer` cannot write or ex
 
 `frontend-design` is vendored **unchanged** from [anthropics/skills](https://github.com/anthropics/skills) at commit `34040c9` (2026-09-10), Apache 2.0, with its `LICENSE.txt` kept beside it. It is the counterpart to the `frontend` persona rather than a duplicate: the persona owns interaction correctness, accessibility, and performance; the skill owns the visual point of view. It forces a two-pass design plan — build a small token system (palette with a narrative, typefaces with assigned roles, layout wireframes), then critique it for anything that reads as a generic default — before any code is written.
 
-`axon-coordinate` also defines the durable checkpoint format at `.axon/tasks/<task-id>.md`, so work survives compaction, interruption, or a new session. A chat summary is not treated as memory.
+`team-coordinate` also defines the durable checkpoint format at `.agent-team/tasks/<task-id>.md`, so work survives compaction, interruption, or a new session. A chat summary is not treated as memory.
 
-The Claude Code and Codex copies of `axon-coordinate/SKILL.md` were byte-identical when this repository was initialized, so the repository keeps one canonical copy instead of duplicated vendor directories.
+The Claude Code and Codex copies of `team-coordinate/SKILL.md` were byte-identical when this repository was initialized, so the repository keeps one canonical copy instead of duplicated vendor directories.
 
 `report` distills three real reports into two lenses: `ds`, for data science and AI engineering work, and `swe`, for software engineering work. Either lens can have a plain-language stakeholder version written from the same numbers. Every report opens with a problem statement and a success criterion. Every number needs a source, a named baseline, and a proxy-or-ground-truth label, and failures are reported with the same depth as wins. Its `scripts/render_pdf.py` renders with headless Chrome (pandoc → HTML → PDF) instead of WeasyPrint. The WeasyPrint output of the source reports looked right, but its Thai text layer extracted "ภาพ" as "ภำพ". Mermaid fences are drawn in-page by mermaid.js, from the CDN or from `MERMAID_JS` when offline. The script fails if any source word or number is missing from the PDF's extracted text, or if any diagram was not drawn.
 
@@ -132,6 +132,20 @@ The standards and persona gates encode ten principles that the classic software-
 | Fail loudly at the boundary | `AGENTS.md` standard 7; `backend` outbound timeouts; `debugger` swallowed-error check |
 | Code is for people; systems mirror teams | `AGENTS.md` standard 1; the handoff envelope; one Master and disjoint ownership (Brooks, Conway) |
 | Everything is a trade-off | `tradeoff:` markers; `code_reviewer` trade-off matrix; `software_eng` design proposals and pattern selection |
+
+Two rules are adapted from [pstack](https://github.com/cursor/plugins/tree/main/pstack) (MIT, Lauren Tan) at commit `519d36a`: testing the shared premise after repeated failed fixes (`principle-attack-the-premise`, now in `debugger`'s Fix Protocol and `team-coordinate`), and enforcing a repeated rule with a check instead of more text (`principle-encode-lessons-in-structure`, now `scripts/check_personas.py`).
+
+### Third-party inspirations and attribution
+
+**Scrutinize skill**
+
+Adapted from [`9arm-skills — scrutinize`](https://github.com/thananon/9arm-skills/blob/1b222f2284eea323f542a43e891dc5250bffa15c/skills/engineering/scrutinize/SKILL.md) by [thananon](https://github.com/thananon), at upstream commit `1b222f2284eea323f542a43e891dc5250bffa15c`. The original provides an outsider-perspective review method that questions intent, traces code paths, and reports evidence-backed findings. The AI Agent Team adaptation focuses on pre-implementation scrutiny and adds a simplification ladder, severity classification, and the team's handoff contract.
+
+**Debugger 4-Mantra Protocol**
+
+Adapted from [`9arm-skills — debug-mantra`](https://github.com/thananon/9arm-skills/blob/d714cb84f35e0c42b2ca29bca505e564ab9f2bcd/skills/engineering/debug-mantra/SKILL.md) by [thananon](https://github.com/thananon), at upstream commit `d714cb84f35e0c42b2ca29bca505e564ab9f2bcd`. The AI Agent Team version retains the four-step sequence — reproduce, trace, falsify the hypothesis, and connect evidence — with team-specific gates, evidence templates, and fix protocol.
+
+**License status:** The upstream repository does not currently show a license file or declared license. Attribution does not grant redistribution rights; permission to distribute these adaptations should be confirmed with the original author.
 
 ## Deliberate decisions — do not "fix" these
 
@@ -193,7 +207,7 @@ Skills, personal installation for all local projects:
 mkdir -p ~/.claude/skills
 cp -R skills/scrutinize ~/.claude/skills/
 cp -R skills/frontend-design ~/.claude/skills/
-cp -R skills/axon-coordinate ~/.claude/skills/
+cp -R skills/team-coordinate ~/.claude/skills/
 cp -R skills/pdf ~/.claude/skills/
 cp -R skills/report ~/.claude/skills/
 ```
@@ -203,10 +217,10 @@ Project-scoped installation:
 ```bash
 mkdir -p /path/to/project/.claude/skills
 cp -R skills/scrutinize /path/to/project/.claude/skills/
-cp -R skills/axon-coordinate /path/to/project/.claude/skills/
+cp -R skills/team-coordinate /path/to/project/.claude/skills/
 ```
 
-Install the AXON Claude agents globally:
+Install the AI Agent Team's Claude agents globally:
 
 ```bash
 mkdir -p ~/.claude/agents
@@ -215,21 +229,21 @@ cp agents/claude/*.md ~/.claude/agents/
 
 ## Install for Codex
 
-Personal installation matching this AXON configuration:
+Personal installation matching this AI Agent Team configuration:
 
 ```bash
 mkdir -p ~/.codex/skills
-cp -R skills/axon-coordinate ~/.codex/skills/
+cp -R skills/team-coordinate ~/.codex/skills/
 ```
 
 Repository-scoped installation using the shared Agent Skills location:
 
 ```bash
 mkdir -p /path/to/project/.agents/skills
-cp -R skills/axon-coordinate /path/to/project/.agents/skills/
+cp -R skills/team-coordinate /path/to/project/.agents/skills/
 ```
 
-Install the AXON Codex agents globally:
+Install the AI Agent Team's Codex agents globally:
 
 ```bash
 mkdir -p ~/.codex/agents
@@ -245,6 +259,7 @@ The Codex files are the canonical `.codex/agents` set. The legacy `~/.Codex/agen
 - Keep one canonical directory per skill under `skills/`.
 - Keep Claude and Codex agent definitions under `agents/claude/` and `agents/codex/`, and edit each persona as a matched pair.
 - Keep repository-wide coding preferences in the root `AGENTS.md`, and propagate any change to the standards into all 14 persona files in the same commit.
+- Run `python3 scripts/check_personas.py` before committing; CI runs it on every push. It fails when the two persona sets name different agents, a persona loses its Coding Standards section, or that section differs within a `.md`/`.toml` pair. It cannot tell whether a persona's reworded rules still match `AGENTS.md`, so that stays a review item.
 - Preserve the same seven agent names and domain boundaries across both formats.
 - Include a valid `SKILL.md` whose YAML frontmatter carries only `name` and `description` — plus `license` on a vendored third-party skill, which must ship its `LICENSE.txt` alongside.
 - Vendor a third-party skill unchanged and record its source and commit, so it can be diffed against upstream later.
