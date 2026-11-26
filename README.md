@@ -12,9 +12,14 @@ See [AGENTS.md](AGENTS.md) for the full coding standards.
 
 ## Workflow at a glance
 
-The diagram shows the six-stage flow. For non-trivial work, clarify the goal and scrutinize the plan before implementation. The Master chooses specialists and the review/QA depth needed; small, low-risk requests can take a shorter path. Every handoff records status, deliverables, evidence, verification, risks, and the recommended next step. Long-running tasks keep progress in `.agent-team/tasks/<task-id>.md`.
+For non-trivial work, clarify the goal and scrutinize the plan before implementation. The Master chooses specialists and the review/QA depth needed; small, low-risk requests can take a shorter path. Every handoff records status, deliverables, evidence, verification, risks, and the recommended next step. Long-running tasks keep progress in `.agent-team/tasks/<task-id>.md`.
 
-![AI Agent Team overview: specialist roles, architecture, workflow, handoff contract, reusable skills, and repository structure.](assets/ai-agent-team-workflow.png)
+```mermaid
+flowchart LR
+    Goal --> Scrutinize --> Coordinate --> Build --> Verify --> Deliver
+```
+
+The legacy image at `assets/ai-agent-team-workflow.png` still lists seven roles and skills that are no longer in this repository, so it is not shown as the current workflow.
 
 Parallel work uses distinct file ownership. After two unsuccessful correction cycles on the same gate, the team tests the shared assumption before trying again.
 
@@ -26,11 +31,12 @@ Claude definitions live in `agents/claude/`; Codex definitions live in `agents/c
 |---|---|
 | `backend` | APIs, databases, authentication, transactions, and server performance |
 | `frontend` | UI behavior, client state, accessibility, and performance |
-| `data_scientist` | AI/ML research, experiments, evaluation, and model serving |
+| `data_scientist` | AI/ML problem formulation, experiments, evaluation, and model serving |
 | `debugger` | Root-cause analysis using the four-mantra protocol |
 | `qa_tester` | Runtime verification, regression tests, and test strategy |
 | `software_eng` | Architecture, interfaces, dependencies, and refactoring guidance |
 | `code_reviewer` | Static code-quality review; read-only, with no command execution |
+| `technical_researcher` | Technical literature discovery, mechanism analysis, source verification, and research synthesis |
 
 The `code_reviewer` identifies source-level risks. `qa_tester` owns runtime proof. The debugger must reproduce, trace, falsify its hypothesis, and connect the evidence before proposing a fix.
 
@@ -86,7 +92,7 @@ For a project-scoped skill install, use `/path/to/project/.agents/skills/`. Rest
 
 ## Repository standards
 
-- Preserve all seven agent names and their domain boundaries. Edit Claude and Codex definitions as a pair.
+- Preserve all eight agent names and their domain boundaries. Edit Claude and Codex definitions as a pair.
 - Keep one canonical directory per skill. A skill's `SKILL.md` must have `name` and `description` frontmatter.
 - Before committing persona changes, run `python3 scripts/check_personas.py`. CI runs the same check on pushes and pull requests.
 - Check third-party licenses and permission before redistributing skills. Keep required license files and attribution with vendored material.

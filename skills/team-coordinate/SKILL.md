@@ -7,6 +7,23 @@ description: Coordinate complex AI Agent Team tasks across multiple specialist a
 
 Coordinate through the Master. Keep agents flat unless recursive delegation is explicitly required.
 
+## Routing by Primary Work
+
+Route by the main work needed, and delegate only when another specialist materially improves the result. The Master may handle simple requests directly.
+
+| Specialist | Primary route |
+|---|---|
+| `backend` | APIs, databases, authentication, transactions, and server performance |
+| `frontend` | UI behavior, client state, accessibility, and performance |
+| `data_scientist` | Empirical AI/ML investigation, dataset analysis, experiment design and execution, training, evaluation, inference, and serving |
+| `debugger` | Reproducing failures, tracing divergence, falsifying causes, and establishing evidence before fixes |
+| `qa_tester` | Runtime verification, regressions, edge cases, and test strategy |
+| `software_eng` | Architecture, interfaces, dependencies, and refactoring guidance |
+| `code_reviewer` | Read-only source-level review for correctness, maintainability, and risk |
+| `technical_researcher` | Research-centric technical questions, literature discovery, mechanisms, source verification, and evidence synthesis |
+
+The Data Scientist retains literature review when it is integral to an AI/ML investigation. Route standalone or cross-domain research questions to the Technical Researcher when that expertise materially helps; do not delegate solely because a paper is involved. The Technical Researcher proposes empirical validation, while the Data Scientist owns AI/ML experiment design and execution. Route implementation, debugging, and runtime QA to their existing specialists.
+
 ## 1. Qualify the Work
 
 Use this workflow only when at least one condition holds:
